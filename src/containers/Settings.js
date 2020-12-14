@@ -3,7 +3,7 @@ import { API } from "aws-amplify";
 import { useHistory } from "react-router-dom";
 import { onError } from "../libs/errorLib";
 import config from "../config";
-import { Elements, StripeProvider } from "react-stripe-elements";
+//import { Elements, StripeProvider } from "react-stripe-elements";
 import BillingForm from "../components/BillingForm";
 import "./Settings.css";
 
@@ -11,11 +11,11 @@ export default function Settings() {
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [stripe, setStripe] = useState(null);
+  //const [stripe, setStripe] = useState(null);
 
-  useEffect(() => {
-    setStripe(window.Stripe(config.STRIPE_KEY));
-  }, []);
+  //useEffect(() => {
+    //setStripe(window.Stripe(config.STRIPE_KEY));
+  //}, []);
 
   function billUser(details) {
     return API.post("notes", "/billing", {
@@ -47,7 +47,9 @@ export default function Settings() {
 
   return (
     <div className="Settings">
-      <StripeProvider stripe={stripe}>
+      <h3>Billing stuff goes here</h3>
+      <BillingForm isLoading={isLoading} onSubmit={handleFormSubmit} />
+      {/*<StripeProvider stripe={stripe}>
         <Elements
           fonts={[
             {
@@ -58,7 +60,7 @@ export default function Settings() {
         >
           <BillingForm isLoading={isLoading} onSubmit={handleFormSubmit} />
         </Elements>
-      </StripeProvider>
+      </StripeProvider>*/}
     </div>
   );
 }

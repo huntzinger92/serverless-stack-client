@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
-import { CardElement, injectStripe } from "react-stripe-elements";
+//import { CardElement, injectStripe } from "react-stripe-elements";
 import LoaderButton from "./LoaderButton";
 import { useFormFields } from "../libs/hooksLib";
 import "./BillingForm.css";
+import { useHistory } from "react-router-dom";
 
-function BillingForm({ isLoading, onSubmit, ...props }) {
+export default function BillingForm({ isLoading, onSubmit, ...props }) {
   const [fields, handleFieldChange] = useFormFields({
     name: "",
     storage: "",
   });
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isCardComplete, setIsCardComplete] = useState(false);
+  const [isCardComplete, setIsCardComplete] = useState(true);
+  const history = useHistory();
 
   isLoading = isProcessing || isLoading;
 
@@ -24,13 +26,16 @@ function BillingForm({ isLoading, onSubmit, ...props }) {
 
     setIsProcessing(true);
 
-    const { token, error } = await props.stripe.createToken({
-      name: fields.name,
-    });
+    setTimeout(500);
+    //const { token, error } = await props.stripe.createToken({
+      //name: fields.name,
+    //});
 
     setIsProcessing(false);
-
-    onSubmit(fields.storage, { token, error });
+    //const token = {"id": "sample_id"};
+    //const error = null
+    //onSubmit(fields.storage, {token, error
+    history.push('/');
   }
 
   return (
@@ -56,7 +61,8 @@ function BillingForm({ isLoading, onSubmit, ...props }) {
         />
       </Form.Group>
       <Form.Label>Credit Card Info</Form.Label>
-      <CardElement
+      <h3>Stripe card input goes here</h3>
+      {/*<CardElement
         className="card-field"
         onChange={(e) => setIsCardComplete(e.complete)}
         style={{
@@ -66,13 +72,14 @@ function BillingForm({ isLoading, onSubmit, ...props }) {
             fontFamily: "'Open Sans', sans-serif",
           },
         }}
-      />
+      />*/}
       <LoaderButton
         block
         size="lg"
         type="submit"
         isLoading={isLoading}
         disabled={!validateForm()}
+        onClick={(e) => handleSubmitClick(e)}
       >
         Purchase
       </LoaderButton>
@@ -80,4 +87,4 @@ function BillingForm({ isLoading, onSubmit, ...props }) {
   );
 }
 
-export default injectStripe(BillingForm);
+//export default injectStripe(BillingForm);
